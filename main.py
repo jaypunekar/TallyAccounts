@@ -16,6 +16,39 @@ client = MongoClient(url)
 db = client['Punekar']
 collec = db['Tally']
 
+class UpdateFrame(customtkinter.CTkFrame):
+    def __init__(self, resort_name, amount, reason, master, **kwargs):
+        super().__init__(master, **kwargs)
+        self.resort_name = resort_name
+        self.amount = amount
+        self.reason = reason
+
+        self.label_heading = customtkinter.CTkLabel(self, text="Entered Details", font=('Monospace', 30), width=10, justify='center')
+        self.label_heading.place(relx=0.5, rely=0.1, anchor='n')
+
+        self.label_name = customtkinter.CTkLabel(self, text="Resort Name:")
+        self.label_name.place(relx=0.15, rely=.2, anchor='nw')
+        self.entry_name = customtkinter.CTkEntry(self, placeholder_text=self.resort_name, width=200)
+        self.entry_name.place(relx=.15, rely=.25, anchor='nw')
+
+        self.label_amount = customtkinter.CTkLabel(self, text="Amount (Rs.)")
+        self.label_amount.place(relx=0.15, rely=.3, anchor='nw')
+        self.entry_amount = customtkinter.CTkEntry(self, placeholder_text=self.amount, width=140)
+        self.entry_amount.place(relx=.15, rely=.35, anchor='nw')
+
+        self.label_reason = customtkinter.CTkLabel(self, text="Reason:")
+        self.label_reason.place(relx=0.15, rely=.4, anchor='nw')
+        self.textbox_reason = customtkinter.CTkTextbox(master=self, width=400, corner_radius=8)
+        self.textbox_reason.insert('end', self.reason)
+        self.textbox_reason.place(relx=.15, rely=.45, anchor='nw')
+
+        self.button_save = customtkinter.CTkButton(self, text="Save")
+        self.button_save.place(relx=0.3, rely=0.90, anchor='s')
+
+        self.button_update = customtkinter.CTkButton(self, text="Update",)
+        self.button_update.place(relx=0.7, rely=0.90, anchor='s')
+
+
 class ButtonFrame(customtkinter.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
@@ -27,15 +60,30 @@ class ButtonFrame(customtkinter.CTkFrame):
         self.update_window = None
     
     def update_selected(self):
-        self.update_window = customtkinter.CTkToplevel(self)
-        self.update_window.geometry("600x600")
-        self.update_window.focus()
-        self.update_window.resizable = False
         # try:
+        x = trv.selection()
+        self.update_window = customtkinter.CTkToplevel(self)
+        self.update_window.geometry("637x637")
+        self.update_window.focus()
+        self.update_window.resizable(False, False)
+
+        #Finding the data from MongoDB
+        selected_item = collec.find_one({'Department': trv.item(x)["values"][0], 'Date_time': trv.item(x)["values"][1], 'Resort Name': trv.item(x)["values"][2]})
+
+
+
+        #Initializing class UpdateFrame
+        self.my_frame = UpdateFrame(master=self.update_window, resort_name=trv.item(x)["values"][2], amount=trv.item(x)["values"][4], reason=selected_item['Reason'], height=600, width=600)
+        self.my_frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+        # except Exception:
+        #     print(Exception.__cause__)
+        #     CTkMessagebox(title='Error', message="Please Select a Row")
+
+        # try:
+        #     trv is a global variable
         #     x = trv.selection()[0]
         #     print(trv.item(x)['values'])
         # except:
-        #     CTkMessagebox(title='Error', message="Please Select a Row")
 
     def edit_button(self):
         CTkMessagebox(title='Error', message="You are not allowed to Edit")
@@ -78,6 +126,8 @@ class MyFrame(customtkinter.CTkFrame):
                     background=[('active', '#3484F0')])
         
         self.style.configure("Treeview", height=700)
+
+        self.update_window = None
 
     # Function for sorting column 
     def sort_column(self, column):
