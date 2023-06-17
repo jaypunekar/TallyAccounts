@@ -60,30 +60,25 @@ class ButtonFrame(customtkinter.CTkFrame):
         self.update_window = None
     
     def update_selected(self):
-        # try:
-        x = trv.selection()
-        self.update_window = customtkinter.CTkToplevel(self)
-        self.update_window.geometry("637x637")
-        self.update_window.focus()
-        self.update_window.resizable(False, False)
+        try:
+            x = trv.selection()
+            self.update_window = customtkinter.CTkToplevel(self)
+            self.update_window.geometry("637x637")
+            self.update_window.focus()
+            self.update_window.resizable(False, False)
 
-        #Finding the data from MongoDB
-        selected_item = collec.find_one({'Department': trv.item(x)["values"][0], 'Date_time': trv.item(x)["values"][1], 'Resort Name': trv.item(x)["values"][2]})
+            #Finding the data from MongoDB
+            selected_item = collec.find_one({'Department': trv.item(x)["values"][0], 'Date_time': trv.item(x)["values"][1], 'Resort Name': trv.item(x)["values"][2]})
 
 
 
-        #Initializing class UpdateFrame
-        self.my_frame = UpdateFrame(master=self.update_window, resort_name=trv.item(x)["values"][2], amount=trv.item(x)["values"][4], reason=selected_item['Reason'], height=600, width=600)
-        self.my_frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
-        # except Exception:
-        #     print(Exception.__cause__)
-        #     CTkMessagebox(title='Error', message="Please Select a Row")
+            #Initializing class UpdateFrame
+            self.my_frame = UpdateFrame(master=self.update_window, resort_name=trv.item(x)["values"][2], amount=trv.item(x)["values"][4], reason=selected_item['Reason'], height=600, width=600)
+            self.my_frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+        except Exception:
+            print(Exception.__cause__)
+            CTkMessagebox(title='Error', message="Please Select a Row")
 
-        # try:
-        #     trv is a global variable
-        #     x = trv.selection()[0]
-        #     print(trv.item(x)['values'])
-        # except:
 
     def edit_button(self):
         CTkMessagebox(title='Error', message="You are not allowed to Edit")
