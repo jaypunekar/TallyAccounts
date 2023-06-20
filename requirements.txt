@@ -1,1 +1,3 @@
-
+customtkinter
+pymongo[srv]
+CTkMessagebox
