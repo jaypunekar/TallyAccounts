@@ -30,6 +30,9 @@ class UpdateFrame(customtkinter.CTkFrame):
         self.entry_name = customtkinter.CTkEntry(self, placeholder_text=self.resort_name, width=200)
         self.entry_name.place(relx=.15, rely=.25, anchor='nw')
 
+        self.payment_method = customtkinter.CTkOptionMenu(self, values=['Bank 1', 'Bank 2', 'Bank 3', 'Bank 4'])
+        self.payment_method.place(relx=.55, rely=.25, anchor='nw')
+
         self.label_amount = customtkinter.CTkLabel(self, text="Amount (Rs.)")
         self.label_amount.place(relx=0.15, rely=.3, anchor='nw')
         self.entry_amount = customtkinter.CTkEntry(self, placeholder_text=self.amount, width=140)
@@ -44,21 +47,21 @@ class UpdateFrame(customtkinter.CTkFrame):
         self.button_save = customtkinter.CTkButton(self, text="Save")
         self.button_save.place(relx=0.3, rely=0.90, anchor='s')
 
-        self.button_update = customtkinter.CTkButton(self, text="Update",)
+        self.button_update = customtkinter.CTkButton(self, text="Add Signature",)
         self.button_update.place(relx=0.7, rely=0.90, anchor='s')
 
 
 class ButtonFrame(customtkinter.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
-        self.edit_button = customtkinter.CTkButton(self, text="Edit", command=self.edit_button)
+        self.edit_button = customtkinter.CTkButton(self, text="Edit (Not Working)", command=self.edit_button)
         self.edit_button.pack(pady=10)
-        self.update_button = customtkinter.CTkButton(self, text="Add Signaure", command=self.add_signature)
+        self.update_button = customtkinter.CTkButton(self, text="Update", command=self.update_selected)
         self.update_button.pack(pady=10)
 
         self.update_window = None
     
-    def add_signature(self):
+    def update_selected(self):
         try:
             x = trv.selection()
             self.update_window = customtkinter.CTkToplevel(self)
