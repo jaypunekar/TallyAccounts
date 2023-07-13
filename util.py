@@ -53,12 +53,12 @@ class ButtonFrame(customtkinter.CTkFrame):
         super().__init__(master, **kwargs)
         self.edit_button = customtkinter.CTkButton(self, text="Edit", command=self.edit_button)
         self.edit_button.pack(pady=10)
-        self.update_button = customtkinter.CTkButton(self, text="Update", command=self.update_selected)
+        self.update_button = customtkinter.CTkButton(self, text="Add Signaure", command=self.add_signature)
         self.update_button.pack(pady=10)
 
         self.update_window = None
     
-    def update_selected(self):
+    def add_signature(self):
         try:
             x = trv.selection()
             self.update_window = customtkinter.CTkToplevel(self)
