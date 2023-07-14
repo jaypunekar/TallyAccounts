@@ -73,7 +73,6 @@ class ButtonFrame(customtkinter.CTkFrame):
             selected_item = collec.find_one({'Department': trv.item(x)["values"][0], 'Date_time': trv.item(x)["values"][1], 'Resort Name': trv.item(x)["values"][2]})
 
 
-
             #Initializing class UpdateFrame
             self.my_frame = UpdateFrame(master=self.update_window, resort_name=trv.item(x)["values"][2], amount=trv.item(x)["values"][4], reason=selected_item['Reason'], height=600, width=600)
             self.my_frame.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
@@ -89,16 +88,17 @@ class ButtonFrame(customtkinter.CTkFrame):
 class MyFrame(customtkinter.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
-        self.df = pd.DataFrame(columns=["Department", "Date_time", "Resort Name", "Person Name", "Amount", "Payment_type", "Approved", "Paid"])
+        self.df = pd.DataFrame(columns=["Department", "Date_time", "Resort Name", "Person Name", "Amount", "Payment_to", "Approved", "Paid"])
         self.order = True
 
         try:
             for one_collec in collec.find():
                 if one_collec["Approved"] == 1 and one_collec["Signature"] == 0:
-                    self.df.loc[len(self.df.index)] = [one_collec["Department"], one_collec["Date_time"], one_collec["Resort Name"], one_collec["Person Name"], one_collec["Amount"], one_collec["Payment_type"], one_collec["Approved"], one_collec["Paid"]]
+                    self.df.loc[len(self.df.index)] = [one_collec["Department"], one_collec["Date_time"], one_collec["Client Name"], one_collec["Person Name"], one_collec["Amount"], one_collec["Payment_to"], one_collec["Approved"], one_collec["Paid"]]
         except Exception:
             CTkMessagebox(title="Error", message=Exception)
 
+        # This function displays data on screen
         self.display_data(self.df)
         # self.my_tree.pack(pady=10)
 
@@ -136,6 +136,7 @@ class MyFrame(customtkinter.CTkFrame):
         self.df = self.df.sort_values(by=[column], ascending=self.order)
         self.display_data(self.df)
 
+    # The following function displays all the data in the database
     def display_data(self, dataframe):
         l1 = list(self.df)
         r_set = self.df.to_numpy().tolist()
