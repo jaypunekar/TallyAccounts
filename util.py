@@ -30,8 +30,10 @@ class UpdateFrame(customtkinter.CTkFrame):
         self.entry_name = customtkinter.CTkEntry(self, placeholder_text=self.resort_name, width=200)
         self.entry_name.place(relx=.15, rely=.25, anchor='nw')
 
-        self.payment_method = customtkinter.CTkOptionMenu(self, values=['Bank 1', 'Bank 2', 'Bank 3', 'Bank 4'])
-        self.payment_method.place(relx=.55, rely=.25, anchor='nw')
+        self.label_person = customtkinter.CTkLabel(self, text="Person Name:")
+        self.label_person.place(relx=0.55, rely=.2, anchor='nw')
+        self.payment_person = customtkinter.CTkEntry(self, placeholder_text="Person Paid To")
+        self.payment_person.place(relx=.55, rely=.25, anchor='nw')
 
         self.label_amount = customtkinter.CTkLabel(self, text="Amount (Rs.)")
         self.label_amount.place(relx=0.15, rely=.3, anchor='nw')
@@ -44,11 +46,19 @@ class UpdateFrame(customtkinter.CTkFrame):
         self.textbox_reason.insert('end', self.reason)
         self.textbox_reason.place(relx=.15, rely=.45, anchor='nw')
 
-        self.button_save = customtkinter.CTkButton(self, text="Save")
+        self.button_save = customtkinter.CTkButton(self, text="Add Signature")
         self.button_save.place(relx=0.3, rely=0.90, anchor='s')
 
-        self.button_update = customtkinter.CTkButton(self, text="Add Signature",)
+        self.button_update = customtkinter.CTkButton(self, text="Approve", command=self.approved_and_paid)
         self.button_update.place(relx=0.7, rely=0.90, anchor='s')
+    
+    def approved_and_paid(self):
+        try:
+            print(collec.find_one_and_update({"Client Name": str(self.resort_name), "Amount": str(self.amount), "Reason": str(self.reason)}, {"$set": {"Paid": 1, "Person Name": self.payment_person.get()}}))
+            CTkMessagebox(title='Success', message="The Voucher has been successfully updated")
+        except Exception:
+            CTkMessagebox(title='Error', message="There was an error while updating the Voucher")
+
 
 
 class ButtonFrame(customtkinter.CTkFrame):
@@ -63,6 +73,7 @@ class ButtonFrame(customtkinter.CTkFrame):
     
     def update_selected(self):
         try:
+            # trv is global data that contains
             x = trv.selection()
             self.update_window = customtkinter.CTkToplevel(self)
             self.update_window.geometry("637x637")
@@ -70,7 +81,7 @@ class ButtonFrame(customtkinter.CTkFrame):
             self.update_window.resizable(False, False)
 
             #Finding the data from MongoDB
-            selected_item = collec.find_one({'Department': trv.item(x)["values"][0], 'Date_time': trv.item(x)["values"][1], 'Resort Name': trv.item(x)["values"][2]})
+            selected_item = collec.find_one({'Department': trv.item(x)["values"][0], 'Date_time': trv.item(x)["values"][1], 'Client Name': trv.item(x)["values"][2]})
 
 
             #Initializing class UpdateFrame
@@ -88,12 +99,12 @@ class ButtonFrame(customtkinter.CTkFrame):
 class MyFrame(customtkinter.CTkFrame):
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
-        self.df = pd.DataFrame(columns=["Department", "Date_time", "Resort Name", "Person Name", "Amount", "Payment_to", "Approved", "Paid"])
+        self.df = pd.DataFrame(columns=["Department", "Date_time", "Client Name", "Person Name", "Amount", "Payment_to", "Approved", "Paid"])
         self.order = True
 
         try:
             for one_collec in collec.find():
-                if one_collec["Approved"] == 1 and one_collec["Signature"] == 0:
+                if one_collec["Approved"] == 1 and one_collec["Signature"] == 0 and one_collec["Paid"] == 0:
                     self.df.loc[len(self.df.index)] = [one_collec["Department"], one_collec["Date_time"], one_collec["Client Name"], one_collec["Person Name"], one_collec["Amount"], one_collec["Payment_to"], one_collec["Approved"], one_collec["Paid"]]
         except Exception:
             CTkMessagebox(title="Error", message=Exception)
