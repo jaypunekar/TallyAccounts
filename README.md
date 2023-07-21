@@ -105,7 +105,7 @@ python3 main.py
 
 ## Packaging the Application
 
-In the Terminal (In AutoVoucherTally dir) run:
+In the Terminal (In TallyAccounts dir) run:
 ```bash
 pyinstaller --onefile main.py  
 ```
@@ -113,11 +113,11 @@ pyinstaller --onefile main.py
 Then run:
 
 ```bash
-pyinstaller --name TallyMain --onefile --windowed --main.py
+pyinstaller --name TallyAccounts --onefile --windowed --main.py
 ```
 
-If you want to add an icon run (icon.ico should be in AutoVoucherTally dir):
+If you want to add an icon run (icon.ico should be in TallyAccounts dir):
 ```bash
-pyinstaller --name TallyMain --onefile --windowed --icon=icon.ico --main.py
+pyinstaller --name TallyAccounts --onefile --windowed --icon=icon.ico --main.py
 ```
-#### You will see a "dist" folder in AutoVoucherTally directory. Inside the "dist" folder you will get the executable file.
+#### You will see a "dist" folder in TallyAccounts directory. Inside the "dist" folder you will get the executable file.
