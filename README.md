@@ -19,6 +19,7 @@ TallyAccounts, an integral part of the Voucher Automation Software Suite, is a p
 - [TallyAccounts Setup](#tallyaccounts-setup)
 - [Installation](#installation)
 - [Packaging](#packaging-the-application)
+- [Screenshots](#screenshots)
 
 
 ## Overview
@@ -123,3 +124,8 @@ If you want to add an icon run (icon.ico should be in TallyAccounts dir):
 pyinstaller --name TallyAccounts --onefile --windowed --icon=icon.ico --main.py
 ```
 #### You will see a "dist" folder in TallyAccounts directory. Inside the "dist" folder you will get the executable file.
+
+## Screenshots
+[![img1.png](https://i.postimg.cc/2yTRkqfd/img1.png)](https://postimg.cc/wRtbFjM3)
+
+[![img-2.png](https://i.postimg.cc/fyHzHqkh/img-2.png)](https://postimg.cc/64vxq0dH)
