@@ -5,6 +5,8 @@
 
 TallyAccounts, an integral part of the Voucher Automation Software Suite, is a powerful application developed using Python and integrated with MongoDB Atlas. This innovative software optimizes financial management by efficiently processing approved vouchers and initiating payments while ensuring strict adherence to a streamlined workflow.
 
+*NOTE: You have to be connected to the internet for this application to work.
+
 ### Softwares:
 
 1. [TallyMain](https://github.com/jaypunekar/AutoVoucherTally)
