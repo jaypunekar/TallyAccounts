@@ -37,6 +37,7 @@ TallyAccounts, an integral part of the Voucher Automation Software Suite, is a p
 TallyAccounts streamlines the payment processing for approved vouchers, safeguarding against unauthorized payments and ensuring accurate financial transactions. By effectively integrating with Tally ERP 9 through TallyMain, the software ensures a seamless flow of financial data, supporting businesses in maintaining a robust and efficient accounting system.
 
 
+
 ## TallyAccounts Setup
 
 
@@ -104,6 +105,8 @@ OR
 ```bash
 python3 main.py
 ```
+
+NOTE:- "Add Signature" button is not implemented yet. I am researching about some interesting ways to implement it.
 
 
 ## Packaging the Application
