@@ -79,7 +79,7 @@ Go to the project directory
   cd TallyAccounts
 ```
 
-Create conda virtual enviornment (This step in not necessory):
+Create conda virtual enviornment (This step in not necessory. Also, it requires Anaconda to be installed on your machine):
 ```bash
 conda create -p venv python==3.8 -y
 ```
